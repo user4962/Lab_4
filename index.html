@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лабораторна робота №4 — Інформаційна система університету</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+<h1>Інформаційна система університету</h1>
+<p class="hint">Лабораторна робота №4. Натисніть на комірку для редагування. Enter або вихід з поля зберігає зміни, Esc скасовує.</p>
+<nav class="tabs" aria-label="Розділи системи">
+<button class="tab-button active" data-tab="teachers" type="button">Викладачі</button>
+<button class="tab-button" data-tab="students" type="button">Студенти</button>
+<button class="tab-button" data-tab="subjects" type="button">Дисципліни</button>
+</nav>
+<section id="teachers-content" class="table-container active"><h2>Викладачі</h2><div class="table-scroll"><table id="teachers-table"></table></div><form id="teacher-form" class="add-form"><h3>Додати викладача</h3><input name="name" placeholder="ПІБ" required><input name="position" placeholder="Посада" required><input name="department" placeholder="Кафедра" required><input name="degree" placeholder="Науковий ступінь" required><input name="experience" type="number" min="0" placeholder="Стаж, років" required><input name="email" type="email" placeholder="E-mail" required><button type="submit">Додати</button></form></section>
+<section id="students-content" class="table-container"><h2>Студенти</h2><div class="table-scroll"><table id="students-table"></table></div><form id="student-form" class="add-form"><h3>Додати студента</h3><input name="name" placeholder="ПІБ" required><input name="group" placeholder="Група" required><input name="course" type="number" min="1" max="6" placeholder="Курс" required><input name="specialty" placeholder="Спеціальність" required><input name="education" placeholder="Форма навчання" required><input name="average" type="number" min="0" max="100" step="0.1" placeholder="Середній бал" required><input name="email" type="email" placeholder="E-mail" required><button type="submit">Додати</button></form></section>
+<section id="subjects-content" class="table-container"><h2>Дисципліни</h2><div class="table-scroll"><table id="subjects-table"></table></div><form id="subject-form" class="add-form"><h3>Додати дисципліну</h3><p class="hint">Викладач обирається з наявних записів таблиці «Викладачі».</p><input name="name" placeholder="Назва дисципліни" required><input name="credits" type="number" min="1" placeholder="Кредити" required><input name="hours" type="number" min="1" placeholder="Години" required><input name="semester" type="number" min="1" max="12" placeholder="Семестр" required><input name="control" placeholder="Форма контролю" required><input name="department" placeholder="Кафедра" required><select name="teacherId" id="subject-teacher" required></select><button type="submit">Додати</button></form></section>
+<p id="status" role="status" aria-live="polite"></p>
+</body></html>
