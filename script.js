@@ -1,25 +1,9 @@
 "use strict";
 
-// Дані з лабораторної №2. Таблиці створюються лише засобами JavaScript.
-const initialDatabase = {
-  teachers: [
-    {id:1,name:"Ковальчук Майя Олегівна",position:"Доцент",department:"Комп'ютерних технологій",degree:"Кандидат педагогічних наук",subjects:"Web-програмування",experience:15,email:"kovalchuk@example.com"},
-    {id:2,name:"Петренко Олександр Іванович",position:"Професор",department:"Інформаційних систем",degree:"Доктор технічних наук",subjects:"Бази даних",experience:22,email:"petrenko@example.com"},
-    {id:3,name:"Шевченко Анна Василівна",position:"Старший викладач",department:"Комп'ютерних технологій",degree:"Кандидат технічних наук",subjects:"JavaScript",experience:8,email:"shevchenko@example.com"}
-  ],
-  students: [
-    {id:1,name:"Іваненко Андрій Петрович",group:"КН-21",course:4,specialty:"Комп'ютерні науки",education:"Денна",average:91.5,email:"ivanenko@example.com"},
-    {id:2,name:"Бондаренко Марія Олександрівна",group:"КН-22",course:3,specialty:"Комп'ютерні науки",education:"Денна",average:94.2,email:"bondarenko@example.com"},
-    {id:3,name:"Мельник Дмитро Сергійович",group:"КН-20",course:4,specialty:"Комп'ютерні науки",education:"Заочна",average:87.8,email:"melnyk@example.com"}
-  ],
-  subjects: [
-    {id:1,name:"Web-програмування",credits:4,hours:120,semester:4,control:"Екзамен",department:"Комп'ютерних технологій",teacherId:1},
-    {id:2,name:"Бази даних",credits:5,hours:150,semester:5,control:"Екзамен",department:"Інформаційних систем",teacherId:2},
-    {id:3,name:"JavaScript",credits:3,hours:90,semester:4,control:"Залік",department:"Комп'ютерних технологій",teacherId:3}
-  ]
-};
+// Початковий стан: жодних вигаданих записів.
+const initialDatabase = { teachers: [], students: [], subjects: [] };
 // Єдине джерело даних — JavaScript. localStorage зберігає всі зміни.
-const STORAGE_KEY = "university-lab4-data-v1";
+const STORAGE_KEY = "university-lab4-data-v2";
 function validDatabase(value) {
   return value && typeof value === "object" &&
     ["teachers", "students", "subjects"].every(key => Array.isArray(value[key]));
@@ -76,6 +60,13 @@ function render(type) {
   [...columns[type].map(c=>c.label),"Дії"].forEach(label=>{const th=document.createElement("th");th.textContent=label;hr.append(th);});
   thead.append(hr); table.append(thead);
   const tbody=document.createElement("tbody");
+  if (database[type].length === 0) {
+    const tr=document.createElement("tr"), td=document.createElement("td");
+    td.colSpan=columns[type].length+1;
+    td.className="empty-state";
+    td.textContent="Даних поки немає. Додайте перший запис за допомогою форми нижче.";
+    tr.append(td); tbody.append(tr);
+  }
   database[type].forEach(row=>{
     const tr=document.createElement("tr");
     columns[type].forEach(col=>{
@@ -96,6 +87,8 @@ function updateTeacherOptions() {
   const empty=document.createElement("option");empty.value="";empty.textContent="Оберіть викладача";select.append(empty);
   database.teachers.forEach(t=>{const option=document.createElement("option");option.value=String(t.id);option.textContent=t.name;select.append(option);});
   if(database.teachers.some(t=>String(t.id)===previous))select.value=previous;
+  select.disabled=database.teachers.length===0;
+  empty.textContent=database.teachers.length ? "Оберіть викладача" : "Спочатку додайте викладача";
 }
 function deleteRecord(type,id) {
   const record=database[type].find(item=>item.id===id);
